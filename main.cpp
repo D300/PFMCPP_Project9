@@ -66,20 +66,10 @@ struct Wrapper
 };
 
 template<>
-struct Wrapper<Point>
-{
-    Wrapper(Point&& t) : point(std::move(t)) 
-    { 
-        std::cout << "Wrapper(" << typeid(point).name() << ")" << std::endl; 
-    }
-
-    void print()
-    {
-        std::cout << "Wrapper::print(" << point.toString() << ")" << std::endl;
-    }
-
-    Point point;
-};
+void Wrapper<Point>::print() 
+{ 
+    std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;
+}
 
 template<typename T>
 void variadicHelper(T&& first)
