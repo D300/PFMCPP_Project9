@@ -71,24 +71,30 @@ void Wrapper<Point>::print()
     std::cout << "Wrapper::print(" << val.toString() << ")" << std::endl;
 }
 
+// 4) before
+/*
 template<typename T>
 void variadicHelper(T&& first)
 {
     Wrapper<T>(std::forward<T>(first)).print();
 }
+*/
+
+void variadicHelper(){}
 
 template<typename T, typename ...Args>
 void variadicHelper(T first, Args ... everythingElse)
 {
     // do something with first
-    Wrapper<T>(std::forward<T>(first)).print();
+    Wrapper<T> (std::forward<T>(first)).print();
 
     // recursion
     variadicHelper( std::forward<Args>(everythingElse) ... );
 }
 
+
 int main()
-{
+{    
     variadicHelper( 3.5, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
 }
 
