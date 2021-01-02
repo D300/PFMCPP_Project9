@@ -48,6 +48,7 @@ private:
     float x{0}, y{0};
 };
 
+
 template<typename Type>
 struct Wrapper
 {
@@ -55,11 +56,50 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << val << ")" << std::endl;
+    }
+
+    Type val;
 };
+
+template<>
+struct Wrapper<Point>
+{
+    Wrapper(Point&& t) : point(std::move(t)) 
+    { 
+        std::cout << "Wrapper(" << typeid(point).name() << ")" << std::endl; 
+    }
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << point.toString() << ")" << std::endl;
+    }
+
+    Point point;
+};
+
+template<typename T>
+void variadicHelper(T&& first)
+{
+    Wrapper<T>(std::forward<T>(first)).print();
+}
+
+template<typename T, typename ...Args>
+void variadicHelper(T first, Args ... everythingElse)
+{
+    // do something with first
+    Wrapper<T>(std::forward<T>(first)).print();
+
+    // recursion
+    variadicHelper( std::forward<Args>(everythingElse) ... );
+}
 
 int main()
 {
-    variadicHelper( 3, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
+    variadicHelper( 3.5, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
 }
 
 
