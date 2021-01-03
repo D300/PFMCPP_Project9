@@ -80,7 +80,7 @@ void variadicHelper(T&& first)
 }
 */
 
-void variadicHelper(){}
+void variadicHelper();
 
 template<typename T, typename ...Args>
 void variadicHelper(T first, Args ... everythingElse)
@@ -91,6 +91,8 @@ void variadicHelper(T first, Args ... everythingElse)
     // recursion
     variadicHelper( std::forward<Args>(everythingElse) ... );
 }
+
+void variadicHelper(){}
 
 
 int main()
